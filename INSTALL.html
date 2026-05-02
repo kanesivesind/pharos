@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Installing Your Pharos Email Signature in Outlook</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    max-width: 760px;
+    margin: 40px auto;
+    padding: 0 24px 60px 24px;
+    color: #2a2a2a;
+    line-height: 1.6;
+    background: #fafbfc;
+  }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    color: #164A7B;
+    border-bottom: 3px solid #c8a14a;
+    padding-bottom: 12px;
+    margin-bottom: 8px;
+    font-size: 28px;
+  }
+  .subtitle {
+    color: #777;
+    font-size: 14px;
+    margin-top: 0;
+    margin-bottom: 32px;
+  }
+  h2 {
+    color: #164A7B;
+    margin-top: 36px;
+    border-bottom: 1px solid #e6e9ee;
+    padding-bottom: 8px;
+    font-size: 20px;
+  }
+  h3 {
+    color: #164A7B;
+    margin-top: 24px;
+    font-size: 16px;
+  }
+  .file-list {
+    background: #fff;
+    border: 1px solid #e6e9ee;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .file-list ul {
+    margin: 0;
+    padding-left: 22px;
+  }
+  .file-list li {
+    margin: 6px 0;
+  }
+  code {
+    background: #eef1f5;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 13px;
+    color: #164A7B;
+  }
+  ol {
+    padding-left: 24px;
+  }
+  ol li {
+    margin: 8px 0;
+  }
+  .step-section {
+    background: #fff;
+    border-left: 3px solid #c8a14a;
+    padding: 16px 20px 16px 24px;
+    margin: 20px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .step-section h3 {
+    margin-top: 0;
+  }
+  .callout {
+    background: #fff8e6;
+    border-left: 3px solid #c8a14a;
+    padding: 12px 18px;
+    margin: 16px 0;
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+  }
+  .callout strong {
+    color: #164A7B;
+  }
+  .troubleshoot-item {
+    margin: 18px 0;
+  }
+  .troubleshoot-item .question {
+    font-weight: bold;
+    color: #164A7B;
+    margin-bottom: 4px;
+  }
+  hr {
+    border: 0;
+    border-top: 1px solid #e6e9ee;
+    margin: 40px 0;
+  }
+  .footer {
+    text-align: center;
+    color: #888;
+    font-size: 13px;
+    margin-top: 40px;
+  }
+  kbd {
+    background: #f4f6f9;
+    border: 1px solid #c8cdd5;
+    border-bottom-width: 2px;
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-family: "SF Mono", Consolas, "Courier New", monospace;
+    font-size: 12px;
+    color: #2a2a2a;
+  }
+</style>
+</head>
+<body>
+
+<h1>Installing Your Pharos Email Signature in Outlook</h1>
+<p class="subtitle">Follow these steps once. Should take about 5 minutes.</p>
+
+<h2>Before you start</h2>
+<p>You need the <code>.htm</code> file for your signature. Pick yours:</p>
+<div class="file-list">
+  <ul>
+    <li><strong>Jordan</strong> &rarr; <code>Jordan.htm</code></li>
+    <li><strong>Brenda</strong> &rarr; <code>Brenda.htm</code></li>
+    <li><strong>Dan</strong> &rarr; <code>Dan.htm</code></li>
+    <li><strong>Derek</strong> &rarr; <code>Derek.htm</code></li>
+  </ul>
+</div>
+<p>Save it somewhere easy to find (like your Desktop).</p>
+
+<h2>Installation steps</h2>
+
+<div class="step-section">
+  <h3>Step 1: Create an empty signature in Outlook</h3>
+  <ol>
+    <li>Open Outlook</li>
+    <li>Click <strong>File &rarr; Options &rarr; Mail &rarr; Signatures</strong></li>
+    <li>Click <strong>New</strong></li>
+    <li>Name it <code>Pharos</code> and click <strong>OK</strong></li>
+    <li>Leave the editor box empty &mdash; don't paste or type anything</li>
+    <li>Click <strong>OK</strong> to save</li>
+    <li><strong>Close Outlook completely</strong> (this part matters &mdash; Outlook locks the file while it's open)</li>
+  </ol>
+</div>
+
+<div class="step-section">
+  <h3>Step 2: Replace the signature file</h3>
+  <ol>
+    <li>Press <kbd>Windows key</kbd> + <kbd>R</kbd> to open the Run dialog</li>
+    <li>Type <code>%appdata%\Microsoft\Signatures</code> and press <strong>Enter</strong></li>
+    <li>A folder window opens. You'll see three files: <code>Pharos.htm</code>, <code>Pharos.txt</code>, <code>Pharos.rtf</code></li>
+    <li>Drag your <code>.htm</code> file (Jordan.htm, Brenda.htm, etc.) into this folder</li>
+    <li><strong>Rename it to <code>Pharos.htm</code></strong> (right-click &rarr; Rename), replacing the existing file when prompted</li>
+    <li>Done &mdash; close the folder</li>
+  </ol>
+</div>
+
+<div class="step-section">
+  <h3>Step 3: Set Pharos as your default signature</h3>
+  <ol>
+    <li>Reopen Outlook</li>
+    <li>Click <strong>File &rarr; Options &rarr; Mail &rarr; Signatures</strong></li>
+    <li>On the right side, under <strong>Choose default signature:</strong>
+      <ul>
+        <li>Set <strong>New messages</strong> to <code>Pharos</code></li>
+        <li>Set <strong>Replies/forwards</strong> to <code>Pharos</code></li>
+      </ul>
+    </li>
+    <li>Click <strong>OK</strong></li>
+  </ol>
+</div>
+
+<div class="step-section">
+  <h3>Step 4: Test it</h3>
+  <ol>
+    <li>Click <strong>New Email</strong></li>
+    <li>Your signature should appear automatically</li>
+    <li>Send a test email to yourself</li>
+    <li>Open the received email and verify everything looks right:
+      <ul>
+        <li>Your headshot displays correctly</li>
+        <li>The navy bar at the bottom shows both the Northwestern Mutual and Pharos logos</li>
+        <li>All phone numbers, email links, and the address are correct</li>
+        <li>The "Pharos Wealth Partners" link opens Jordan's NM advisor page</li>
+      </ul>
+    </li>
+  </ol>
+</div>
+
+<h2>Troubleshooting</h2>
+
+<div class="troubleshoot-item">
+  <div class="question">"Pictures aren't showing &mdash; there's just a placeholder"</div>
+  <p>Outlook blocks external images by default for security. The <em>recipient</em> sees an image-blocked placeholder until they click "Download Pictures" or add you to their Safe Senders list. This is normal and out of your control. Most regular clients/contacts will only need to do this once.</p>
+</div>
+
+<div class="troubleshoot-item">
+  <div class="question">"My signature looks wrong in the Outlook editor when composing"</div>
+  <p>That's expected &mdash; Outlook's compose view doesn't always render perfectly. The way it appears in a <em>received</em> email is what matters. Send a test to yourself and check there.</p>
+</div>
+
+<div class="troubleshoot-item">
+  <div class="question">"I see only the Pharos logo in the navy bar, not Northwestern Mutual"</div>
+  <p>You may have an old version installed. Make sure you used the latest <code>.htm</code> file (this issue was fixed in the most recent update).</p>
+</div>
+
+<div class="troubleshoot-item">
+  <div class="question">"I made the empty signature but the .htm file isn't in the folder"</div>
+  <p>Outlook only creates the files after you click OK with the signature <em>named</em>. Try the steps again, making sure to click OK at each prompt.</p>
+</div>
+
+<hr>
+
+<div class="callout">
+  <strong>Need help?</strong> Email Kane.
+</div>
+
+<p class="footer">Pharos Wealth Partners &middot; Email Signature Setup</p>
+
+</body>
+</html>
