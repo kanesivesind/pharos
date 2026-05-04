@@ -1131,6 +1131,21 @@ html, body {
   color: var(--pharos-gold);
   margin-right: calc(2px * var(--s));
 }
+/* Heritage variant: drops the gold drop-cap so the entire two-line
+   headline reads as straight navy serif — same treatment as the heritage
+   navy banner but on the cream field. */
+.team-light__headline--heritage::first-letter {
+  font-style: normal;
+  color: var(--pharos-navy);
+  margin-right: 0;
+}
+/* Faded second line on the heritage variant — softer navy so the eye lands
+   on the first line. Mirrors the .headline--soft pattern from the navy
+   banners (white-on-navy uses 62% white; navy-on-cream uses ~45% navy
+   to read as visibly recessive without becoming illegible). */
+.team-light__headline-soft {
+  color: rgba(22, 74, 123, 0.5);
+}
 .team-light__sub {
   margin-top: calc(16px * var(--s));
   font-size: calc(13px * var(--s));

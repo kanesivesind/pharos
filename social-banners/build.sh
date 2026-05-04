@@ -407,6 +407,44 @@ cat <<'BODY'
 BODY
 }
 
+# ============================================================
+# Direction 9 — Team, light field (heritage copy)
+# Same composition as Team Light but the heritage two-line headline
+# ("Planning that compounds. / Decisions that age well.") in pure navy serif,
+# no gold drop-cap. Pairs the most institutional copy with the photo.
+# ============================================================
+team_light_heritage_body() {
+cat <<'BODY'
+    <div class="banner__rule-top"></div>
+
+    <div class="team-light__photo-wrap">
+      <img src="../assets/team-photo.jpg" alt="Pharos team" />
+    </div>
+
+    <div class="gold-side-rule team-light__side-rule"></div>
+
+    <div class="team-light__type">
+      <div class="team-light__eyebrow">
+        <span class="eyebrow">The Pharos team</span>
+      </div>
+      <h1 class="headline headline--ink team-light__headline team-light__headline--heritage">
+        Planning that compounds.<br />
+        <span class="team-light__headline-soft">Decisions that age well.</span>
+      </h1>
+    </div>
+
+    <div class="team-light__footer">
+      <div class="lockup">
+        <img class="lockup__nm" src="../assets/nm-wordmark-white.svg" alt="Northwestern Mutual" />
+        <span class="lockup__divider"></span>
+        <span style="font-family: var(--font-heading); font-size: calc(14px * var(--s)); font-weight: 700; color: #fff; letter-spacing: 0.2px;">
+          Pharos Wealth Partners
+        </span>
+      </div>
+    </div>
+BODY
+}
+
 # Loop through directions × sizes. Format: id:title:fn:cssClass
 DIRECTIONS=(
   "01-heritage:Heritage Band:heritage_body:heritage"
@@ -416,6 +454,7 @@ DIRECTIONS=(
   "06-horizon:Horizon:horizon_body:horizon"
   "07-team-anchored:Team, Anchored:team_anchored_body:team-anchored"
   "08-team-light:Team, Light Field:team_light_body:team-light"
+  "09-team-light-heritage:Team, Light Field (Heritage Copy):team_light_heritage_body:team-light"
 )
 
 for d in "${DIRECTIONS[@]}"; do
