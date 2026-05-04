@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pharos Wealth Partners — Social Banners</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@700&family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --pharos-navy: #164A7B;
+      --pharos-gold: #c8a14a;
+      --ink-900: #2a2a2a;
+      --ink-500: #555555;
+      --ink-300: #888888;
+      --rule-100: #e6e9ee;
+      --rule-200: #d7dde5;
+      --bg: #f0eee9;
+      --card-bg: #fff;
+      --shadow-card: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink-900);
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 1700px;
+      margin: 0 auto;
+      padding: 64px 48px 96px;
+    }
+
+    header {
+      max-width: 720px;
+      margin-bottom: 64px;
+    }
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.9px;
+      text-transform: uppercase;
+      color: var(--pharos-gold);
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-family: "Source Serif Pro", Georgia, serif;
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      line-height: 1.1;
+      color: var(--pharos-navy);
+      margin: 0 0 14px;
+    }
+    .lede {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink-500);
+      margin: 0 0 24px;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      font-size: 13px;
+      color: var(--ink-500);
+      padding-top: 20px;
+      border-top: 1px solid var(--rule-100);
+    }
+    .meta strong { color: var(--ink-900); font-weight: 600; }
+
+    .direction {
+      margin-bottom: 80px;
+      padding-top: 40px;
+      border-top: 1px solid var(--rule-100);
+    }
+    .direction:first-of-type { border-top: 0; padding-top: 0; }
+
+    .direction__header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .direction__num {
+      font-family: "Source Serif Pro", Georgia, serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--pharos-gold);
+      letter-spacing: -0.2px;
+    }
+    .direction__title {
+      font-family: "Source Serif Pro", Georgia, serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--pharos-navy);
+      letter-spacing: -0.3px;
+      margin: 0;
+    }
+    .direction__sub {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--ink-500);
+      max-width: 760px;
+      margin: 0 0 28px;
+    }
+
+    .artboards {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .artboard__label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--ink-300);
+      letter-spacing: 0.2px;
+      margin-bottom: 8px;
+    }
+    .artboard__label .platform {
+      font-weight: 600;
+      color: var(--ink-500);
+    }
+    .artboard__label .dims {
+      font-variant-numeric: tabular-nums;
+    }
+    .artboard__label .download {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--pharos-navy);
+      text-decoration: none;
+      padding: 4px 10px;
+      border: 1px solid var(--rule-200);
+      border-radius: 3px;
+      background: #fff;
+      transition: background .12s, border-color .12s;
+    }
+    .artboard__label .download:hover {
+      background: var(--pharos-navy);
+      color: #fff;
+      border-color: var(--pharos-navy);
+    }
+
+    .artboard {
+      background: var(--card-bg);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      width: 100%;
+      max-width: 1584px;
+      aspect-ratio: var(--ratio);
+      position: relative;
+    }
+    .artboard iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--native-w);
+      height: var(--native-h);
+      border: 0;
+      transform: scale(var(--scale));
+      transform-origin: top left;
+      pointer-events: none;
+    }
+
+    /* Compute scale via container width — each artboard sets --native-w and
+       --native-h; we use a JS-free approach: the iframe is rendered at native
+       size and CSS scaled proportionally to fit the container. */
+    .artboard--linkedin {
+      --native-w: 1584px;
+      --native-h: 396px;
+      --ratio: 1584 / 396;
+    }
+    .artboard--facebook {
+      --native-w: 851px;
+      --native-h: 315px;
+      --ratio: 851 / 315;
+      max-width: 851px;
+    }
+
+    .pair {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+
+    nav.toc {
+      position: sticky;
+      top: 0;
+      background: rgba(240, 238, 233, 0.95);
+      backdrop-filter: blur(8px);
+      padding: 16px 0;
+      margin: -64px -48px 48px;
+      padding-left: 48px;
+      padding-right: 48px;
+      border-bottom: 1px solid var(--rule-100);
+      z-index: 10;
+    }
+    nav.toc ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 24px;
+      font-size: 13px;
+    }
+    nav.toc a {
+      color: var(--ink-500);
+      text-decoration: none;
+      transition: color .12s;
+    }
+    nav.toc a:hover { color: var(--pharos-navy); }
+    nav.toc .toc-num {
+      color: var(--pharos-gold);
+      font-weight: 600;
+      margin-right: 6px;
+    }
+
+    footer {
+      margin-top: 80px;
+      padding-top: 32px;
+      border-top: 1px solid var(--rule-100);
+      font-size: 12px;
+      color: var(--ink-300);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <nav class="toc">
+    <ul>
+      <li><a href="#heritage"><span class="toc-num">01</span>Heritage Band</a></li>
+      <li><a href="#typographic"><span class="toc-num">02</span>Typographic</a></li>
+      <li><a href="#beam"><span class="toc-num">03</span>Lighthouse Beam</a></li>
+      <li><a href="#coordinates"><span class="toc-num">05</span>Coordinates</a></li>
+      <li><a href="#horizon"><span class="toc-num">06</span>Horizon</a></li>
+      <li><a href="#team-anchored"><span class="toc-num">07</span>Team, Anchored</a></li>
+      <li><a href="#team-light"><span class="toc-num">08</span>Team, Light Field</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <div class="eyebrow">Pharos Wealth Partners</div>
+    <h1>Social Banner Directions</h1>
+    <p class="lede">
+      Eight directions for the LinkedIn and Facebook covers. Each is rendered at the
+      exact platform dimensions. Open the standalone files to screenshot the final
+      banner, or right-click to inspect at native resolution. All directions are
+      Northwestern Mutual compliant: equal-weight lockup, gold heritage rule, no
+      animation.
+    </p>
+    <div class="meta">
+      <div><strong>LinkedIn personal cover</strong> &middot; 1584 × 396</div>
+      <div><strong>Facebook page cover</strong> &middot; 851 × 315</div>
+      <div><strong>Pick one</strong> &middot; reply with the number</div>
+    </div>
+  </header>
+
+  <!-- 01 — Heritage Band -->
+  <section class="direction" id="heritage">
+    <div class="direction__header">
+      <span class="direction__num">01</span>
+      <h2 class="direction__title">Heritage Band</h2>
+    </div>
+    <p class="direction__sub">
+      Most by-the-book. Navy field, gold 3px rule, eyebrow + serif headline left,
+      lighthouse mark ringed in gold on the right. Calm authority. The closest
+      to the email signature.
+    </p>
+    <div class="artboards">
+      <div>
+        <div class="artboard__label">
+          <span class="platform">LinkedIn</span>
+          <span class="dims">1584 × 396</span>
+          <a class="download" href="banners/01-heritage-linkedin.html" target="_blank" rel="noopener">Open standalone &rarr;</a>
+        </div>
+        <div class="artboard artboard--linkedin">
+          <iframe src="banners/01-heritage-linkedin.html" loading="lazy" scrolling="no"
+                  style="--scale: calc(100cqw / 1584);"></iframe>
+        </div>
+      </div>
+      <div>
+        <div class="artboard__label">
+          <span class="platform">Facebook</span>
+          <span class="dims">851 × 315</span>
+          <a class="download" href="banners/01-heritage-facebook.html" target="_blank" rel="noopener">Open standalone &rarr;</a>
+        </div>
+        <div class="artboard artboard--facebook">
+          <iframe src="banners/01-heritage-facebook.html" loading="lazy" scrolling="no"
+                  style="--scale: calc(100cqw / 851);"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 — Typographic -->
+  <section class="direction" id="typographic">
+    <div class="direction__header">
+      <span class="direction__num">02</span>
+      <h2 class="direction__title">Three-band Typographic</h2>
+    </div>
+    <p class="direction__sub">
+      Pure type on white. Eyebrow / serif statement / NM lockup. The most restrained
+      version. Reads like a printed letterhead. Closest to the signature&rsquo;s tone.
+    </p>
+    <div class="artboards">
+      <div>
+        <div class="artboard__label">
+          <span class="platform">LinkedIn</span><span class="dims">1584 × 396</span>
+          <a class="download" href="banners/02-typographic-linkedin.html" target="_blank" rel="noopener">Open standalone &rarr;</a>
+        </div>
+        <div class="artboard artboard--linkedin">
+          <iframe src="banners/02-typographic-linkedin.html" loading="lazy" scrolling="no" style="--scale: calc(100cqw / 1584);"></iframe>
+        </div>
+      </div>
+      <div>
+        <div class="artboard__label">
+          <span class="platform">Facebook</span><span class="dims">851 × 315</span>
+          <a class="download" href="banners/02-typographic-facebook.html" target="_blank" rel="noopener">Open standalone &rarr;</a>
+        </div>
+        <div class="artboard artboard--facebook">
+          <iframe src="banners/02-typographic-facebook.html" loading="lazy" scrolling="no" style="--scale: calc(100cqw / 851);"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — Beam -->
+  <section class="direction" id="beam">
+    <div class="direction__header">
+      <span class="direction__num">03</span>
+      <h2 class="direction__title">Lighthouse Beam</h2>
+    </div>
+    <p class="direction__sub">
+      Soft amber halo around the lamp room over a deep-navy field. Suggests guidance
+      without being literal. Boldest visual move in the set, still finance,
+      not nautical kitsch.
+    </p>
+    <div class="artboards">
+      <div>
+        <div class="artboard__label"><span class="platform">LinkedIn</span><span class="dims">1584 × 396</span><a class="download" href="banners/03-beam-linkedin.html" target="_blank" rel="noopener">Open standalone &rarr;</a></div>
+        <div class="artboard artboard--linkedin"><iframe src="banners/03-beam-linkedin.html" loading="lazy" scrolling="no" style="--scale: calc(100cqw / 1584);"></iframe></div>
+      </div>
+      <div>
+        <div class="artboard__label"><span class="platform">Facebook</span><span class="dims">851 × 315</span><a class="download" href="banners/03-beam-facebook.html" target="_blank" rel="noopener">Open standalone &rarr;</a></div>
+        <div class="artboard artboard--facebook"><iframe src="banners/03-beam-facebook.html" loading="lazy" scrolling="no" style="--scale: calc(100cqw / 851);"></iframe></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — Coordinates -->
+  <section class="direction" id="coordinates">
+    <div class="direction__header">
+      <span class="direction__num">05</span>
+      <h2 class="direction__title">Coordinates</h2>
+    </div>
+    <p class="direction__sub">
+      Compass rose, fine grid, Madison&rsquo;s lat/long as decorative eyebrow. Nautical
+      heritage expressed through chartmaker restraint, not stormy seas. &ldquo;A fixed
+      point in shifting markets.&rdquo;
+    </p>
+    <div class="artboards">
+      <div>
+        <div class="artboard__label"><span class="platform">LinkedIn</span><span class="dims">1584 × 396</span><a class="download" href="banners/05-coordinates-linkedin.html" target="_blank" rel="noopener">Open standalone &rarr;</a></div>
+        <div class="artboard artboard--linkedin"><iframe src="banners/05-coordinates-linkedin.html" loading="lazy" scrolling="no" style="--scale: calc(100cqw / 1584);"></iframe></div>
+      </div>
+      <div>
+        <div class="artboard__label"><span class="platform">Facebook</span><span class="dims">851 × 315</span><a class="download" href="banners/05-coordinates-facebook.html" target="_blank" rel="noopener">Open standalone &rarr;</a></div>
+        <div class="artboard artboard--facebook"><iframe src="banners/05-coordinates-facebook.html" loading="lazy" scrolling="no" style="--scale: calc(100cqw / 851);"></iframe></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — Horizon -->
+  <section class="direction" id="horizon">
+    <div class="direction__header">
+      <span class="direction__num">06</span>
+      <h2 class="direction__title">Horizon</h2>
+    </div>
+    <p class="direction__sub">
+      Most metaphor-forward. Two flat navy bands meet at a gold hairline.
+      That&rsquo;s the horizon. A single amber dot is the lamp. No photo, no
+      gradient. Quiet, almost minimalist.
+    </p>
+    <div class="artboards">
+      <div>
+        <div class="artboard__label"><span class="platform">LinkedIn</span><span class="dims">1584 × 396</span><a class="download" href="banners/06-horizon-linkedin.html" target="_blank" rel="noopener">Open standalone &rarr;</a></div>
+        <div class="artboard artboard--linkedin"><iframe src="banners/06-horizon-linkedin.html" loading="lazy" scrolling="no" style="--scale: calc(100cqw / 1584);"></iframe></div>
+      </div>
+      <div>
+        <div class="artboard__label"><span class="platform">Facebook</span><span class="dims">851 × 315</span><a class="download" href="banners/06-horizon-facebook.html" target="_blank" rel="noopener">Open standalone &rarr;</a></div>
+        <div class="artboard artboard--facebook"><iframe src="banners/06-horizon-facebook.html" loading="lazy" scrolling="no" style="--scale: calc(100cqw / 851);"></iframe></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 — Team, anchored -->
+  <section class="direction" id="team-anchored">
+    <div class="direction__header">
+      <span class="direction__num">07</span>
+      <h2 class="direction__title">Team, Anchored</h2>
+    </div>
+    <p class="direction__sub">
+      Team photo on a navy field. The photo&rsquo;s light-grey backdrop fades
+      into navy via a soft gradient mask. Strongest &ldquo;here we are&rdquo; read
+      in the set. Easy to swap when the team changes.
+    </p>
+    <div class="artboards">
+      <div>
+        <div class="artboard__label"><span class="platform">LinkedIn</span><span class="dims">1584 × 396</span><a class="download" href="banners/07-team-anchored-linkedin.html" target="_blank" rel="noopener">Open standalone &rarr;</a></div>
+        <div class="artboard artboard--linkedin"><iframe src="banners/07-team-anchored-linkedin.html" loading="lazy" scrolling="no" style="--scale: calc(100cqw / 1584);"></iframe></div>
+      </div>
+      <div>
+        <div class="artboard__label"><span class="platform">Facebook</span><span class="dims">851 × 315</span><a class="download" href="banners/07-team-anchored-facebook.html" target="_blank" rel="noopener">Open standalone &rarr;</a></div>
+        <div class="artboard artboard--facebook"><iframe src="banners/07-team-anchored-facebook.html" loading="lazy" scrolling="no" style="--scale: calc(100cqw / 851);"></iframe></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 — Team, light field -->
+  <section class="direction" id="team-light">
+    <div class="direction__header">
+      <span class="direction__num">08</span>
+      <h2 class="direction__title">Team, Light Field</h2>
+    </div>
+    <p class="direction__sub">
+      Inverse of 07. Cream field, photo right, slim navy footer band carrying the NM
+      lockup. Reads like a portrait letterhead. Quieter and more personal.
+    </p>
+    <div class="artboards">
+      <div>
+        <div class="artboard__label"><span class="platform">LinkedIn</span><span class="dims">1584 × 396</span><a class="download" href="banners/08-team-light-linkedin.html" target="_blank" rel="noopener">Open standalone &rarr;</a></div>
+        <div class="artboard artboard--linkedin"><iframe src="banners/08-team-light-linkedin.html" loading="lazy" scrolling="no" style="--scale: calc(100cqw / 1584);"></iframe></div>
+      </div>
+      <div>
+        <div class="artboard__label"><span class="platform">Facebook</span><span class="dims">851 × 315</span><a class="download" href="banners/08-team-light-facebook.html" target="_blank" rel="noopener">Open standalone &rarr;</a></div>
+        <div class="artboard artboard--facebook"><iframe src="banners/08-team-light-facebook.html" loading="lazy" scrolling="no" style="--scale: calc(100cqw / 851);"></iframe></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Note: headlines and stats are placeholders pulled from the brand voice
+    examples. Swap to final copy once a direction is picked. To export
+    a final banner, open the standalone file and screenshot at native
+    resolution (or use a tool like Puppeteer / Playwright with the page set
+    to the artboard dimensions).
+  </footer>
+
+</div>
+
+<script>
+  // Container-query-based scaling for iframes. Each .artboard wraps a fixed-size
+  // iframe that's CSS-transformed to fit its container width. We use a small
+  // ResizeObserver instead of CSS container queries so this works in older
+  // Safari builds as well.
+  const observe = () => {
+    const ros = new ResizeObserver((entries) => {
+      for (const e of entries) {
+        const w = e.contentRect.width;
+        const native = parseFloat(getComputedStyle(e.target).getPropertyValue('--native-w'));
+        const iframe = e.target.querySelector('iframe');
+        if (iframe && native > 0) {
+          iframe.style.transform = `scale(${w / native})`;
+        }
+      }
+    });
+    document.querySelectorAll('.artboard').forEach((el) => ros.observe(el));
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', observe);
+  } else {
+    observe();
+  }
+</script>
+
+</body>
+</html>

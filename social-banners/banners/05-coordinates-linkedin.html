@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Pharos — Coordinates · linkedin 1584×396</title>
+  <link rel="stylesheet" href="../banners.css" />
+</head>
+<body>
+  <div class="banner coordinates" style="--w: 1584px; --h: 396px; --s: 1.000000;">
+    <div class="banner__rule-top"></div>
+
+    <!-- faint chart grid -->
+    <svg style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.08;" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="grid5" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fff" stroke-width="0.5" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid5)" />
+    </svg>
+
+    <!-- compass rose -->
+    <svg class="coordinates__compass" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#c8a14a" stroke-width="0.6" />
+      <circle cx="50" cy="50" r="38" fill="none" stroke="#fff" stroke-width="0.4" opacity="0.4" />
+      <!-- 32 tick marks: cardinals long, ordinals medium, rest short -->
+      <g stroke="#fff" stroke-width="0.4">
+        <line x1="50" y1="4" x2="50" y2="14" opacity="0.9" />
+        <line x1="50" y1="86" x2="50" y2="96" opacity="0.9" />
+        <line x1="4" y1="50" x2="14" y2="50" opacity="0.9" />
+        <line x1="86" y1="50" x2="96" y2="50" opacity="0.9" />
+        <line x1="17.5" y1="17.5" x2="22.5" y2="22.5" opacity="0.6" />
+        <line x1="82.5" y1="17.5" x2="77.5" y2="22.5" opacity="0.6" />
+        <line x1="17.5" y1="82.5" x2="22.5" y2="77.5" opacity="0.6" />
+        <line x1="82.5" y1="82.5" x2="77.5" y2="77.5" opacity="0.6" />
+      </g>
+      <!-- north needle -->
+      <path d="M 50 12 L 54 50 L 50 88 L 46 50 Z" fill="#fff" opacity="0.85" />
+      <path d="M 50 12 L 54 50 L 50 50 Z" fill="#c8a14a" />
+      <circle cx="50" cy="50" r="2" fill="#c8a14a" />
+      <text x="50" y="9" text-anchor="middle" font-size="6"
+            font-family="Source Serif Pro, Georgia, serif" font-weight="700" fill="#c8a14a">N</text>
+    </svg>
+
+    <!-- Reticle marks at top-left and bottom-left — chartmaker's
+         crosshairs reinforcing "a fixed point" -->
+    <span class="coordinates__reticle coordinates__reticle--tl"></span>
+    <span class="coordinates__reticle coordinates__reticle--bl"></span>
+
+    <div class="coordinates__type">
+      <div class="coordinates__eyebrow">
+        <span class="eyebrow">Pharos &middot; 43.0986&deg; N &middot; 89.5039&deg; W</span>
+      </div>
+      <h1 class="headline coordinates__headline">
+        True north<br />
+        <span class="headline--gold-italic">in every market cycle.</span>
+      </h1>
+    </div>
+
+    <div class="coordinates__bottom">
+      <div class="lockup">
+        <img class="lockup__nm" src="../assets/nm-wordmark-white.svg" alt="Northwestern Mutual" />
+        <span class="lockup__divider"></span>
+        <span style="font-family: var(--font-heading); font-size: calc(15px * var(--s)); font-weight: 700; color: #fff; letter-spacing: 0.2px;">
+          Pharos Wealth Partners
+        </span>
+      </div>
+      <div class="coordinates__location">Middleton, Wisconsin</div>
+    </div>
+  </div>
+</body>
+</html>

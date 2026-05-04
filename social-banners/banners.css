@@ -1,0 +1,1177 @@
+/* Pharos Wealth Partners — Social banners
+   Shared styles. Each banner is a fixed-size rectangle that matches the
+   platform's exact cover dimensions, so the rendered HTML can be
+   screenshotted/exported as the actual social asset.
+
+   Scaling: each banner sets --w, --h, --s on its root .banner element.
+   --s is height/396 so a single composition scales cleanly between
+   LinkedIn (1584x396) and the Facebook variants (851x315 / 820x312).
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --pharos-navy: #164A7B;
+  --pharos-navy-deep: #0f3a62;
+  --pharos-gold: #c8a14a;
+  --lamp-amber: #f0b428;
+
+  --ink-900: #2a2a2a;
+  --ink-700: #444444;
+  --ink-500: #555555;
+  --ink-400: #777777;
+  --ink-300: #888888;
+
+  --surface-0: #ffffff;
+  --surface-50: #fafbfc;
+  --rule-100: #e6e9ee;
+  --rule-200: #d7dde5;
+  --cream: #f4f3ef;
+
+  --font-heading: "Source Serif Pro", Georgia, "Times New Roman", serif;
+  --font-body: "Inter", Arial, Helvetica, sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #ececec;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   Banner shell
+   ============================================================ */
+.banner {
+  width: var(--w);
+  height: var(--h);
+  position: relative;
+  overflow: hidden;
+  font-family: var(--font-body);
+  color: #fff;
+  background: var(--pharos-navy);
+  box-sizing: border-box;
+}
+
+/* Subtle paper-grain overlay sitting above the navy field but below content.
+   Adds tactile depth that's invisible at a glance but keeps the surface
+   from reading as flat digital fill. Disabled on white/cream variants where
+   it would muddy the field. */
+.banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+/* Navy compositions get an additional radial vignette — corners darken
+   slightly so the eye is guided toward the type stack rather than drifting
+   to the edges. Kept very subtle (15% deepest darkness at corners). */
+.banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.18) 100%
+  );
+  z-index: 1;
+}
+/* Light fields don't get the noise/vignette treatment — they need to stay
+   crisp and paper-clean. */
+.banner.typographic::before,
+.banner.typographic::after,
+.banner.numbers::before,
+.banner.numbers::after,
+.banner.team-light::before,
+.banner.team-light::after {
+  display: none;
+}
+
+/* gold heritage rule along the top — used on every direction */
+.banner__rule-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--pharos-gold) 0%,
+    #d8b870 50%,
+    var(--pharos-gold) 100%
+  );
+  z-index: 5;
+  /* Subtle highlight stripe gives the rule a little dimension instead of
+     reading as a flat block of color. */
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* ============================================================
+   Decorative utilities — used across multiple directions
+   ============================================================ */
+
+/* Corner brackets — four small ¬ marks set in gold at the artboard corners.
+   Reads as a passport stamp / certificate framing device. Consumes its
+   parent's positioning context. */
+.brackets {
+  position: absolute;
+  inset: calc(20px * var(--s));
+  pointer-events: none;
+  z-index: 4;
+}
+.brackets::before,
+.brackets::after,
+.brackets > .brackets__bl,
+.brackets > .brackets__br {
+  content: "";
+  position: absolute;
+  width: calc(18px * var(--s));
+  height: calc(18px * var(--s));
+  border: 1px solid var(--pharos-gold);
+  opacity: 0.65;
+}
+.brackets::before { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+.brackets::after  { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+.brackets > .brackets__bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+.brackets > .brackets__br { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+/* Vertical gold rule used as a left-margin pacer on serif headlines.
+   Sits flush-left with the type and signals "section opens here." */
+.gold-side-rule {
+  position: absolute;
+  width: 2px;
+  background: var(--pharos-gold);
+  opacity: 0.85;
+}
+
+/* Thin gold underline used to emphasize a single italic word in a headline
+   (signature accent move from financial editorial design — Mossberg / FT). */
+.gold-underline {
+  background-image: linear-gradient(var(--pharos-gold), var(--pharos-gold));
+  background-position: 0 88%;
+  background-repeat: no-repeat;
+  background-size: 100% 2px;
+  padding-bottom: calc(2px * var(--s));
+}
+
+/* Lighthouse mark drop-shadow — multi-layer, navy-tinted. Lifts the mark off
+   the field without reading as digital glow. */
+.lighthouse-shadow {
+  filter:
+    drop-shadow(0 calc(2px * var(--s)) 0 rgba(0, 0, 0, 0.18))
+    drop-shadow(0 calc(8px * var(--s)) calc(20px * var(--s)) rgba(0, 0, 0, 0.35));
+}
+
+/* eyebrow — the signature uppercase bold label
+   Default form: small caps + flanking thin gold rule + gold middot bullet
+   between segments. The flanking rule makes the eyebrow look like a section
+   marker on an institutional document rather than just a tag.
+
+   Markup:
+     <span class="eyebrow">
+       <span class="eyebrow__lead">Pharos Wealth Partners</span>
+     </span>
+
+   For "A · B · C" style strings, just use middots in the text — the
+   surrounding rule still frames the whole line. */
+.eyebrow {
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.9px;
+  color: var(--pharos-gold);
+  display: inline-flex;
+  align-items: center;
+  gap: calc(10px * var(--s));
+  line-height: 1;
+  font-size: calc(11px * var(--s));
+}
+/* The leading thin gold rule — sits to the left of the eyebrow text and
+   visually anchors it to the margin. */
+.eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: calc(22px * var(--s));
+  height: 1px;
+  background: currentColor;
+  opacity: 0.7;
+  flex: none;
+}
+.eyebrow--navy { color: var(--pharos-navy); }
+.eyebrow--lg { font-size: calc(12px * var(--s)); }
+.eyebrow--lg::before { width: calc(28px * var(--s)); }
+/* Centered eyebrow variant — flanking rules on both sides (used in the
+   typographic banner for symmetry). */
+.eyebrow--centered::after {
+  content: "";
+  display: inline-block;
+  width: calc(22px * var(--s));
+  height: 1px;
+  background: currentColor;
+  opacity: 0.7;
+  flex: none;
+}
+
+/* serif headline */
+.headline {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.05;
+  color: #fff;
+  margin: 0;
+}
+/* italic emphasis word inside any headline — pairs with .gold-underline */
+.headline em {
+  font-style: italic;
+  font-weight: 700;
+}
+.headline--soft { color: rgba(255, 255, 255, 0.62); }
+.headline--ink { color: var(--pharos-navy); }
+.headline--ink-soft { color: var(--ink-500); }
+.headline--gold-italic {
+  color: var(--pharos-gold);
+  font-style: italic;
+}
+
+/* body subhead */
+.subhead {
+  font-family: var(--font-body);
+  font-size: calc(14px * var(--s));
+  letter-spacing: 0.2px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+.subhead--ink { color: var(--ink-500); }
+.subhead--italic { font-style: italic; }
+
+/* ============================================================
+   NM compliance lockup — real logos, equal weight, hairline divider
+   The signatures use NM (260x32) on the left and the Pharos lockup
+   (117x32) on the right; here we keep the same proportions but scale
+   with --s so the lockup fits naturally inside each banner.
+   ============================================================ */
+.lockup {
+  display: flex;
+  align-items: center;
+  gap: calc(20px * var(--s));
+  font-family: var(--font-body);
+}
+.lockup__nm {
+  height: calc(28px * var(--s));
+  width: auto;
+  display: block;
+}
+.lockup__divider {
+  width: 1px;
+  height: calc(32px * var(--s));
+  background: rgba(255, 255, 255, 0.28);
+}
+.lockup__divider--ink { background: var(--rule-200); }
+.lockup__pharos {
+  height: calc(28px * var(--s));
+  width: auto;
+  display: block;
+}
+
+/* When the lockup sits on a navy band, NM logo is rendered as the white
+   SVG via <img>; on white surfaces, NM is rendered via the navy PNG. */
+
+/* ============================================================
+   Direction 1 — Heritage Band
+   Navy field, eyebrow + serif headline left, lighthouse mark
+   ringed in gold on the right, NM lockup along bottom.
+   ============================================================ */
+.heritage__eyebrow {
+  position: absolute;
+  top: calc(40px * var(--s));
+  left: calc(64px * var(--s));
+}
+.heritage__headline {
+  position: absolute;
+  top: calc(78px * var(--s));
+  left: calc(64px * var(--s));
+  right: calc(64px * var(--s));
+  font-size: calc(56px * var(--s));
+  max-width: calc(900px * var(--s));
+}
+.heritage__lighthouse-wrap {
+  position: absolute;
+  right: calc(88px * var(--s));
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(150px * var(--s));
+  height: calc(155.7px * var(--s)); /* 150 * (1309/1261) */
+}
+.heritage__lighthouse-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+/* Outer gold ring — sets the lighthouse inside a "porthole" framing device.
+   A second, much fainter ring sits inside as a subtle echo, evoking
+   ripples on water without being literal. The combination reads as a
+   compass coin or seal stamp. */
+.heritage__ring {
+  position: absolute;
+  right: calc(56px * var(--s));
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(232px * var(--s));
+  height: calc(232px * var(--s));
+  border: 1px solid var(--pharos-gold);
+  border-radius: 50%;
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 2;
+}
+.heritage__ring--inner {
+  width: calc(196px * var(--s));
+  height: calc(196px * var(--s));
+  right: calc(74px * var(--s));
+  border-color: rgba(255, 255, 255, 0.12);
+  opacity: 1;
+  border-style: dashed;
+}
+/* Four small gold tick marks at compass points around the outer ring —
+   N/E/S/W cardinal indicators. Reads as a compass face without committing
+   to one. Positioned via individual classes rather than ::before/::after
+   so they can each be precisely placed. */
+.heritage__tick {
+  position: absolute;
+  width: calc(8px * var(--s));
+  height: 1px;
+  background: var(--pharos-gold);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 3;
+}
+.heritage__tick--n { top: calc(50% - calc(120px * var(--s))); right: calc(168px * var(--s)); }
+.heritage__tick--s { top: calc(50% + calc(119px * var(--s))); right: calc(168px * var(--s)); }
+.heritage__tick--e { top: 50%; right: calc(48px * var(--s)); width: 1px; height: calc(8px * var(--s)); margin-top: calc(-4px * var(--s)); }
+.heritage__tick--w { top: 50%; right: calc(284px * var(--s)); width: 1px; height: calc(8px * var(--s)); margin-top: calc(-4px * var(--s)); }
+
+/* Vertical gold side-rule pacing the headline left margin (heritage). */
+.heritage__side-rule {
+  top: calc(78px * var(--s));
+  left: calc(48px * var(--s));
+  height: calc(120px * var(--s));
+  z-index: 3;
+}
+.heritage__bottom {
+  position: absolute;
+  bottom: calc(32px * var(--s));
+  left: calc(64px * var(--s));
+  right: calc(64px * var(--s));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.heritage__location {
+  font-size: calc(11px * var(--s));
+  letter-spacing: 0.2px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ============================================================
+   Direction 2 — Three-band typographic
+   Pure type on white. The most signature-faithful direction.
+   ============================================================ */
+.typographic {
+  background: #fff;
+  color: var(--ink-900);
+}
+.typographic__inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: calc(48px * var(--s)) calc(64px * var(--s));
+  box-sizing: border-box;
+}
+.typographic__eyebrow {
+  margin-bottom: calc(22px * var(--s));
+}
+.typographic__headline {
+  font-size: calc(54px * var(--s));
+  line-height: 1.1;
+  max-width: calc(1100px * var(--s));
+  text-wrap: balance;
+}
+/* Italic accent inside the headline — gold underline runs beneath the
+   emphasized phrase, giving the line a single point of visual weight. */
+.typographic__headline em {
+  font-style: italic;
+  font-weight: 700;
+}
+.typographic__credentials {
+  margin-top: calc(20px * var(--s));
+  font-size: calc(13px * var(--s));
+  letter-spacing: 0.2px;
+  color: var(--ink-500);
+  font-style: italic;
+  /* Wrap credentials in a thin gold-rule frame above & below — gives the
+     line a "by-line" quality borrowed from editorial finance pages. */
+  display: inline-flex;
+  align-items: center;
+  gap: calc(14px * var(--s));
+}
+.typographic__credentials::before,
+.typographic__credentials::after {
+  content: "";
+  display: inline-block;
+  width: calc(28px * var(--s));
+  height: 1px;
+  background: var(--pharos-gold);
+  opacity: 0.6;
+}
+.typographic__credentials sup { font-size: 0.55em; vertical-align: super; }
+
+.typographic__hairline {
+  position: absolute;
+  bottom: calc(56px * var(--s));
+  left: calc(64px * var(--s));
+  right: calc(64px * var(--s));
+  height: 1px;
+  background: var(--rule-100);
+}
+/* A small gold diamond ornament centered on the bottom hairline — divides
+   the lockup band from the content area. Borrowed from editorial fleurons. */
+.typographic__hairline::before {
+  content: "";
+  position: absolute;
+  width: calc(7px * var(--s));
+  height: calc(7px * var(--s));
+  background: var(--pharos-gold);
+  top: calc(-3px * var(--s));
+  left: 50%;
+  margin-left: calc(-3.5px * var(--s));
+  transform: rotate(45deg);
+}
+/* Bottom corner ornaments — small gold corner marks anchoring the white
+   field to its frame. */
+.typographic__corner {
+  position: absolute;
+  width: calc(14px * var(--s));
+  height: calc(14px * var(--s));
+  pointer-events: none;
+  z-index: 4;
+}
+.typographic__corner--tl { top: calc(20px * var(--s)); left: calc(20px * var(--s)); border-top: 1px solid var(--pharos-gold); border-left: 1px solid var(--pharos-gold); }
+.typographic__corner--tr { top: calc(20px * var(--s)); right: calc(20px * var(--s)); border-top: 1px solid var(--pharos-gold); border-right: 1px solid var(--pharos-gold); }
+.typographic__corner--bl { bottom: calc(20px * var(--s)); left: calc(20px * var(--s)); border-bottom: 1px solid var(--pharos-gold); border-left: 1px solid var(--pharos-gold); }
+.typographic__corner--br { bottom: calc(20px * var(--s)); right: calc(20px * var(--s)); border-bottom: 1px solid var(--pharos-gold); border-right: 1px solid var(--pharos-gold); }
+.typographic__lockup {
+  position: absolute;
+  bottom: calc(22px * var(--s));
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* ============================================================
+   Direction 3 — Lighthouse beam
+   Soft amber radial halo + linear cone over deep-navy field.
+   Type stack on the left, lighthouse on the right.
+   ============================================================ */
+.beam {
+  background: var(--pharos-navy-deep);
+}
+/* Glow halo around the lamp source. The lamp sits roughly at
+   (right edge - 220*s, vertical center). */
+.beam__glow {
+  position: absolute;
+  /* center the radial blob on the lamp position */
+  top: 50%;
+  right: calc(120px * var(--s));
+  width: calc(620px * var(--s));
+  height: calc(620px * var(--s));
+  transform: translateY(-50%);
+  pointer-events: none;
+  /* Tighter, brighter core + softer outer falloff = less "splotchy haze",
+     more "lamp source." Three-stop gradient gives the glow a shape. */
+  background: radial-gradient(
+    circle at center,
+    rgba(240, 180, 40, 0.55) 0%,
+    rgba(240, 180, 40, 0.22) 12%,
+    rgba(240, 180, 40, 0.08) 32%,
+    rgba(240, 180, 40, 0) 70%
+  );
+  filter: blur(calc(2px * var(--s)));
+}
+/* Inner bright lamp core — small, sharp, sits on top of the soft glow.
+   This is what gives the beam a sense of source instead of just a wash. */
+.beam__core {
+  position: absolute;
+  top: 50%;
+  right: calc(170px * var(--s));
+  width: calc(60px * var(--s));
+  height: calc(60px * var(--s));
+  transform: translateY(-50%);
+  pointer-events: none;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 220, 120, 0.85) 0%,
+    rgba(240, 180, 40, 0.4) 35%,
+    rgba(240, 180, 40, 0) 75%
+  );
+  filter: blur(calc(1px * var(--s)));
+  z-index: 2;
+}
+/* Eight short gold rays radiating from the lamp — sun-burst style, but
+   thin and restrained so it reads as a lighthouse beam, not a logo. */
+.beam__rays {
+  position: absolute;
+  top: 50%;
+  right: calc(170px * var(--s));
+  width: calc(280px * var(--s));
+  height: calc(280px * var(--s));
+  transform: translate(50%, -50%);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.45;
+}
+/* Horizontal cone fading leftward — narrows toward the lamp on the right
+   and widens slightly across the body so it reads as a "sweep." */
+.beam__cone {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    270deg,
+    rgba(240, 180, 40, 0) 0%,
+    rgba(240, 180, 40, 0.04) 25%,
+    rgba(240, 180, 40, 0.10) 55%,
+    rgba(240, 180, 40, 0.04) 85%,
+    rgba(240, 180, 40, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 70%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 70%, transparent 100%);
+}
+.beam__lighthouse {
+  position: absolute;
+  right: calc(100px * var(--s));
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(170px * var(--s));
+  height: calc(176.5px * var(--s));
+}
+.beam__lighthouse img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.beam__type {
+  position: absolute;
+  top: calc(80px * var(--s));
+  left: calc(64px * var(--s));
+  right: 50%;
+}
+.beam__eyebrow { margin-bottom: calc(18px * var(--s)); }
+.beam__headline { font-size: calc(50px * var(--s)); }
+
+.beam__lockup {
+  position: absolute;
+  bottom: calc(32px * var(--s));
+  left: calc(64px * var(--s));
+}
+
+/* ============================================================
+   Direction 4 — By the numbers
+   Navy sidebar carrying the lockup; three big serif stats on white.
+   ============================================================ */
+.numbers {
+  background: #fff;
+  color: var(--ink-900);
+}
+.numbers__sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(280px * var(--s));
+  height: 100%;
+  background: var(--pharos-navy);
+  display: flex;
+  flex-direction: column;
+  padding: calc(36px * var(--s)) calc(28px * var(--s));
+  box-sizing: border-box;
+  /* Subtle ink shadow drops the sidebar slightly forward of the white panel
+     — looks like a card laid over a sheet rather than two abutted blocks. */
+  box-shadow: calc(2px * var(--s)) 0 calc(20px * var(--s)) rgba(15, 58, 98, 0.18);
+}
+/* Vertical gold edge along the right side of the sidebar — a subtle
+   "ribbon" detail that frames the navy panel. */
+.numbers__sidebar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: calc(2px * var(--s));
+  background: var(--pharos-gold);
+  opacity: 0.85;
+}
+.numbers__sidebar-rule {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--pharos-gold) 0%,
+    #d8b870 50%,
+    var(--pharos-gold) 100%
+  );
+}
+.numbers__sidebar-mark {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.numbers__sidebar-mark img {
+  width: calc(64px * var(--s));
+  height: auto;
+  display: block;
+}
+.numbers__sidebar-name {
+  margin-top: calc(16px * var(--s));
+  font-family: var(--font-heading);
+  font-size: calc(24px * var(--s));
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+}
+.numbers__sidebar-nm {
+  font-family: var(--font-body);
+  font-size: calc(9.5px * var(--s));
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 600;
+  line-height: 1.25;
+}
+.numbers__sidebar-nm img {
+  height: calc(20px * var(--s));
+  width: auto;
+  display: block;
+}
+
+.numbers__panel {
+  position: absolute;
+  left: calc(280px * var(--s));
+  top: 0;
+  right: 0;
+  height: 100%;
+  padding: calc(48px * var(--s)) calc(56px * var(--s));
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.numbers__eyebrow { margin-bottom: calc(28px * var(--s)); }
+.numbers__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: calc(32px * var(--s));
+}
+.numbers__cell {
+  border-top: 1px solid var(--rule-100);
+  padding-top: calc(18px * var(--s));
+  position: relative;
+}
+/* Gold dot above the rule — caps each cell with a small accent that
+   visually anchors the stat. Sits flush with the hairline. */
+.numbers__cell::before {
+  content: "";
+  position: absolute;
+  top: calc(-3px * var(--s));
+  left: 0;
+  width: calc(6px * var(--s));
+  height: calc(6px * var(--s));
+  background: var(--pharos-gold);
+  border-radius: 50%;
+}
+.numbers__num {
+  font-family: var(--font-heading);
+  font-size: calc(68px * var(--s));
+  font-weight: 700;
+  color: var(--pharos-navy);
+  letter-spacing: -1.5px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.numbers__label {
+  margin-top: calc(12px * var(--s));
+  font-size: calc(11px * var(--s));
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--ink-500);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* ============================================================
+   Direction 5 — Coordinates
+   Navy field with chart grid + compass rose. Lat/long eyebrow.
+   ============================================================ */
+.coordinates__type {
+  position: absolute;
+  top: calc(78px * var(--s));
+  left: calc(64px * var(--s));
+  max-width: calc(760px * var(--s));
+}
+.coordinates__eyebrow { margin-bottom: calc(18px * var(--s)); }
+.coordinates__headline { font-size: calc(52px * var(--s)); }
+
+.coordinates__compass {
+  position: absolute;
+  top: calc(58px * var(--s));
+  right: calc(70px * var(--s));
+  width: calc(200px * var(--s));
+  height: calc(200px * var(--s));
+  opacity: 0.92;
+  /* Soft gold halo behind the compass — gives it a sense of presence
+     and weight, like a brass instrument catching light. */
+  filter: drop-shadow(0 0 calc(20px * var(--s)) rgba(200, 161, 74, 0.25));
+}
+/* Reticle marks at the four corners of the artboard — small fixed-point
+   markers that call back to the "fixed point" headline. Match the
+   compass aesthetic. */
+.coordinates__reticle {
+  position: absolute;
+  width: calc(20px * var(--s));
+  height: calc(20px * var(--s));
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.4;
+}
+.coordinates__reticle::before,
+.coordinates__reticle::after {
+  content: "";
+  position: absolute;
+  background: var(--pharos-gold);
+}
+.coordinates__reticle::before { left: 50%; top: 0; bottom: 0; width: 1px; margin-left: -0.5px; }
+.coordinates__reticle::after { top: 50%; left: 0; right: 0; height: 1px; margin-top: -0.5px; }
+.coordinates__reticle--tl { top: calc(28px * var(--s)); left: calc(28px * var(--s)); }
+.coordinates__reticle--bl { bottom: calc(28px * var(--s)); left: calc(28px * var(--s)); }
+
+.coordinates__bottom {
+  position: absolute;
+  bottom: calc(32px * var(--s));
+  left: calc(64px * var(--s));
+  right: calc(64px * var(--s));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.coordinates__location {
+  font-family: var(--font-heading);
+  font-size: calc(14px * var(--s));
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.3px;
+}
+
+/* ============================================================
+   Direction 6 — Horizon
+   Two flat navy bands meeting at a gold hairline. Single amber dot
+   = the lamp on the horizon. No photo, no gradient.
+   ============================================================ */
+/* The horizon sits at 70% of height (was 62% — the lower horizon gives the
+   sky type stack room to breathe and frames the sub copy comfortably above
+   the gold hairline). The water band sits below and is significantly darker
+   than the sky for the silhouette to read. */
+/* Sky band gets a vertical gradient — deeper at top, lifting near the
+   horizon. Water band gets a similar but inverted treatment so it reads
+   like a real sea against a dusk sky. The combination + gold hairline
+   creates much more atmospheric depth than two flat slabs. */
+.horizon {
+  background: linear-gradient(
+    180deg,
+    #0e3a64 0%,
+    #16507f 60%,
+    #1e5d8c 100%
+  );
+}
+.horizon__water {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 70%;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    #093158 0%,
+    #061d3d 100%
+  );
+  /* Subtle horizontal banding on the water — looks like calm sea ripples
+     catching the lamp's reflection. */
+  background-image:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0,
+      transparent calc(8px * var(--s)),
+      rgba(200, 161, 74, 0.025) calc(8px * var(--s)),
+      rgba(200, 161, 74, 0.025) calc(9px * var(--s))
+    ),
+    linear-gradient(180deg, #093158 0%, #061d3d 100%);
+}
+/* Faint horizontal cloud bands above the horizon — three subtle layers,
+   each a thin lighter stripe. Reads as atmosphere/haze near the horizon
+   line without being literal clouds. */
+.horizon__sky-bands {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent 56%, rgba(255, 255, 255, 0.025) 60%, transparent 64%),
+    linear-gradient(180deg, transparent 50%, rgba(255, 255, 255, 0.02) 53%, transparent 56%),
+    linear-gradient(180deg, transparent 44%, rgba(255, 255, 255, 0.015) 47%, transparent 50%);
+}
+.horizon__hairline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 70%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(200, 161, 74, 0.4) 0%,
+    var(--pharos-gold) 50%,
+    rgba(200, 161, 74, 0.4) 100%
+  );
+  opacity: 0.95;
+  box-shadow: 0 0 calc(8px * var(--s)) rgba(200, 161, 74, 0.4);
+}
+.horizon__lamp {
+  position: absolute;
+  right: calc(220px * var(--s));
+  top: calc(70% - calc(6px * var(--s)));
+  width: calc(14px * var(--s));
+  height: calc(14px * var(--s));
+  border-radius: 50%;
+  background: var(--lamp-amber);
+  box-shadow:
+    0 0 calc(8px * var(--s)) #ffd770,
+    0 0 calc(24px * var(--s)) var(--lamp-amber),
+    0 0 calc(48px * var(--s)) rgba(240, 180, 40, 0.5),
+    0 0 calc(80px * var(--s)) rgba(240, 180, 40, 0.25);
+}
+/* Receding reflection trail — a column of fading amber dashes mirroring
+   the lamp on the water. Classic seascape detail done with pure CSS. */
+.horizon__reflection {
+  position: absolute;
+  right: calc(214px * var(--s));
+  top: calc(70% + calc(8px * var(--s)));
+  width: calc(24px * var(--s));
+  height: calc(80px * var(--s));
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(240, 180, 40, 0.7) 0%,
+      rgba(240, 180, 40, 0.45) 25%,
+      rgba(240, 180, 40, 0.18) 60%,
+      rgba(240, 180, 40, 0) 100%
+    );
+  filter: blur(calc(3px * var(--s)));
+  opacity: 0.85;
+}
+/* Two extra distant lamp dots in the far distance — barely visible, but
+   they introduce the sense of a horizon stretching beyond the frame. */
+.horizon__distant-lamp {
+  position: absolute;
+  top: calc(70% - calc(2px * var(--s)));
+  width: calc(4px * var(--s));
+  height: calc(4px * var(--s));
+  border-radius: 50%;
+  background: var(--lamp-amber);
+  opacity: 0.5;
+  box-shadow: 0 0 calc(8px * var(--s)) rgba(240, 180, 40, 0.5);
+}
+.horizon__distant-lamp--a { right: calc(620px * var(--s)); opacity: 0.4; }
+.horizon__distant-lamp--b { right: calc(900px * var(--s)); opacity: 0.25; transform: scale(0.7); }
+.horizon__lighthouse {
+  position: absolute;
+  right: calc(90px * var(--s));
+  /* horizon sits at 70% of height; lighthouse rests on the horizon */
+  top: calc((var(--h) * 0.70) - calc(150px * var(--s)));
+  width: calc(150px * var(--s));
+  height: calc(155.7px * var(--s));
+}
+.horizon__lighthouse img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.horizon__type {
+  position: absolute;
+  top: calc(56px * var(--s));
+  left: calc(64px * var(--s));
+  max-width: 55%;
+}
+.horizon__eyebrow { margin-bottom: calc(14px * var(--s)); }
+.horizon__headline { font-size: calc(46px * var(--s)); line-height: 1.05; }
+.horizon__sub {
+  margin-top: calc(12px * var(--s));
+  max-width: calc(480px * var(--s));
+  font-size: calc(13px * var(--s));
+}
+/* Lockup sits in the dark water band — needs a small bit of room above the
+   bottom edge so the divider doesn't run into it. */
+.horizon__lockup {
+  position: absolute;
+  bottom: calc(22px * var(--s));
+  left: calc(64px * var(--s));
+}
+
+/* ============================================================
+   Direction 7 — Team, anchored
+   Navy field, team photo right, photo bg fades into navy.
+   Photo native ratio 2000x962 ≈ 2.08:1.
+   ============================================================ */
+/* Photo native ratio is 2000x962 ≈ 2.08:1.
+
+   The team is clustered in the right two-thirds of the source photo with a
+   wide grey backdrop on the left. We sit the photo flush against the right
+   edge of the banner and use object-position: 100% center so the people
+   anchor to the right — the leftmost grey backdrop is what gets covered by
+   the navy fade, never the faces.
+
+   Width is sized off the banner's own width so the photo always claims a
+   predictable chunk regardless of aspect ratio (was sized off height, which
+   made the photo dominate the FB canvas and pull faces into the gradient). */
+.team-anchored__photo {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 60%;
+  z-index: 1;
+  overflow: hidden;
+}
+.team-anchored__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Pull the photo so the leftmost team member sits past the gradient
+     finish line — anchor at 60% (toward the right but not extreme)
+     puts all four faces clearly inside the photo window. */
+  object-position: 60% center;
+  display: block;
+  filter: saturate(0.95) contrast(1.02);
+}
+.team-anchored__photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Narrow gradient — fades fully by ~20% of the photo width. Just enough
+     to soften the seam between navy field and photo backdrop, never deep
+     enough to cross any face. */
+  background: linear-gradient(
+    90deg,
+    var(--pharos-navy) 0%,
+    rgba(22, 74, 123, 0.7) 8%,
+    rgba(22, 74, 123, 0.2) 18%,
+    rgba(22, 74, 123, 0) 28%
+  );
+  pointer-events: none;
+}
+.team-anchored__photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(22, 74, 123, 0.18) 0%,
+    rgba(22, 74, 123, 0) 40%
+  );
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 1;
+}
+.team-anchored__type {
+  position: absolute;
+  top: calc(78px * var(--s));
+  left: calc(64px * var(--s));
+  /* Cap the column tighter than the photo's left edge (40% of canvas)
+     so the headline never wraps into the team — leaves a clean ~24px
+     buffer between the type stack and the leftmost face. */
+  max-width: 38%;
+  z-index: 3;
+}
+.team-anchored__eyebrow { margin-bottom: calc(18px * var(--s)); }
+.team-anchored__headline { font-size: calc(42px * var(--s)); line-height: 1.1; }
+.team-anchored__lockup {
+  position: absolute;
+  bottom: calc(32px * var(--s));
+  left: calc(64px * var(--s));
+  z-index: 3;
+}
+/* Vertical gold rule that runs alongside the headline — same pacing
+   element used in heritage. */
+.team-anchored__side-rule {
+  top: calc(78px * var(--s));
+  left: calc(48px * var(--s));
+  height: calc(110px * var(--s));
+  z-index: 4;
+}
+/* Gold corner brackets at the top-left and bottom-left of the navy field
+   — frames the type stack like a passport stamp. */
+.team-anchored__corner {
+  position: absolute;
+  width: calc(16px * var(--s));
+  height: calc(16px * var(--s));
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0.7;
+}
+.team-anchored__corner--tl {
+  top: calc(28px * var(--s));
+  left: calc(28px * var(--s));
+  border-top: 1px solid var(--pharos-gold);
+  border-left: 1px solid var(--pharos-gold);
+}
+.team-anchored__corner--bl {
+  bottom: calc(28px * var(--s));
+  left: calc(28px * var(--s));
+  border-bottom: 1px solid var(--pharos-gold);
+  border-left: 1px solid var(--pharos-gold);
+}
+
+/* ============================================================
+   Direction 8 — Team, light field
+   Cream field, photo right, slim navy footer band with NM lockup.
+   ============================================================ */
+.team-light {
+  background: var(--cream);
+  color: var(--ink-900);
+}
+/* Same anchor strategy as team-anchored: photo flush right, sized off
+   banner width (not height), people anchored to the right side of the
+   frame, gradient fades within the photo's grey backdrop only. */
+.team-light__photo-wrap {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: calc(56px * var(--s));
+  width: 60%;
+  z-index: 1;
+  overflow: hidden;
+}
+.team-light__photo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 60% center;
+  display: block;
+}
+.team-light__photo-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--cream) 0%,
+    rgba(244, 243, 239, 0.75) 8%,
+    rgba(244, 243, 239, 0.25) 18%,
+    rgba(244, 243, 239, 0) 28%
+  );
+}
+/* Cream paper grain — subtle warmth on the cream field, like book stock. */
+.team-light::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.4  0 0 0 0 0.32  0 0 0 0 0.18  0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n2)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+.team-light__type {
+  position: absolute;
+  top: calc(56px * var(--s));
+  left: calc(64px * var(--s));
+  max-width: 38%;
+  z-index: 4;
+}
+.team-light__eyebrow { margin-bottom: calc(18px * var(--s)); }
+.team-light__headline {
+  font-size: calc(40px * var(--s));
+  letter-spacing: -0.4px;
+  color: var(--pharos-navy);
+  position: relative;
+  line-height: 1.1;
+}
+/* Drop-cap-style first letter on the headline — Source Serif italic
+   weight, larger and recessed back into the line. Editorial flourish. */
+.team-light__headline::first-letter {
+  font-style: italic;
+  color: var(--pharos-gold);
+  margin-right: calc(2px * var(--s));
+}
+.team-light__sub {
+  margin-top: calc(16px * var(--s));
+  font-size: calc(13px * var(--s));
+  letter-spacing: 0.2px;
+  color: var(--ink-500);
+  line-height: 1.5;
+  max-width: calc(460px * var(--s));
+}
+/* Gold side-rule alongside the team-light headline. */
+.team-light__side-rule {
+  top: calc(56px * var(--s));
+  left: calc(48px * var(--s));
+  height: calc(110px * var(--s));
+  z-index: 4;
+}
+.team-light__footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(56px * var(--s));
+  background: var(--pharos-navy);
+  display: flex;
+  align-items: center;
+  padding: 0 calc(64px * var(--s));
+  box-sizing: border-box;
+  z-index: 4;
+}
+/* Gold heritage rule directly above the navy footer band — separates the
+   cream content from the brand stamp the way the email signature does. */
+.team-light__footer::before {
+  content: "";
+  position: absolute;
+  top: calc(-3px * var(--s));
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--pharos-gold) 0%,
+    #d8b870 50%,
+    var(--pharos-gold) 100%
+  );
+}

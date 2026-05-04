@@ -1,2 +1,4 @@
 transcript.md
 .DS_Store
+.playwright-mcp/
+.banner-checks/
