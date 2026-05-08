@@ -299,10 +299,11 @@ cat <<'BODY'
     <div class="horizon__distant-lamp horizon__distant-lamp--b"></div>
 
     <div class="horizon__lamp"></div>
+    <div class="horizon__reflection-glow"></div>
     <div class="horizon__reflection"></div>
 
     <div class="horizon__lighthouse">
-      <img class="lighthouse-shadow" src="../assets/logos/lighthouse-mark-white.png" alt="Pharos lighthouse" />
+      <img class="lighthouse-shadow" src="../assets/logos/pharos-P-mark.png" alt="Pharos lighthouse" />
     </div>
 
     <div class="banner__rule-top"></div>
@@ -323,9 +324,7 @@ cat <<'BODY'
       <div class="lockup">
         <img class="lockup__nm" src="../assets/nm-wordmark-white.svg" alt="Northwestern Mutual" />
         <span class="lockup__divider"></span>
-        <span style="font-family: var(--font-heading); font-size: calc(14px * var(--s)); font-weight: 700; color: #fff; letter-spacing: 0.2px;">
-          Pharos Wealth Partners
-        </span>
+        <img class="lockup__pharos-lockup" src="../assets/logos/pharos-lockup-white.png" alt="Pharos Wealth Partners" />
       </div>
     </div>
 BODY
@@ -445,6 +444,44 @@ cat <<'BODY'
 BODY
 }
 
+# ============================================================
+# Direction 10 — Horizon, Still
+# Same composition as Horizon but with the water band, hairline, lamp,
+# reflection cone, glow, and distant lamps removed — lighthouse on a
+# clean navy gradient sky.
+# ============================================================
+horizon_still_body() {
+cat <<'BODY'
+    <div class="horizon__sky-bands"></div>
+
+    <div class="horizon__lighthouse">
+      <img class="lighthouse-shadow" src="../assets/logos/pharos-P-mark.png" alt="Pharos lighthouse" />
+    </div>
+
+    <div class="banner__rule-top"></div>
+
+    <div class="horizon__type">
+      <div class="horizon__eyebrow">
+        <span class="eyebrow">Pharos Wealth Partners</span>
+      </div>
+      <h1 class="headline horizon__headline">
+        Defense first.<br /><em><span class="gold-underline">Then dream</span></em>.
+      </h1>
+      <p class="subhead horizon__sub">
+        Multigenerational planning, built one family at a time.
+      </p>
+    </div>
+
+    <div class="horizon__lockup">
+      <div class="lockup">
+        <img class="lockup__nm" src="../assets/nm-wordmark-white.svg" alt="Northwestern Mutual" />
+        <span class="lockup__divider"></span>
+        <img class="lockup__pharos-lockup" src="../assets/logos/pharos-lockup-white.png" alt="Pharos Wealth Partners" />
+      </div>
+    </div>
+BODY
+}
+
 # Loop through directions × sizes. Format: id:title:fn:cssClass
 DIRECTIONS=(
   "01-heritage:Heritage Band:heritage_body:heritage"
@@ -455,6 +492,7 @@ DIRECTIONS=(
   "07-team-anchored:Team, Anchored:team_anchored_body:team-anchored"
   "08-team-light:Team, Light Field:team_light_body:team-light"
   "09-team-light-heritage:Team, Light Field (Heritage Copy):team_light_heritage_body:team-light"
+  "10-horizon-still:Horizon, Still:horizon_still_body:horizon horizon--still"
 )
 
 for d in "${DIRECTIONS[@]}"; do

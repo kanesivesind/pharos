@@ -40,6 +40,20 @@ html, body {
   -webkit-font-smoothing: antialiased;
   font-variant-numeric: tabular-nums;
 }
+/* Standalone-preview helper. When one of these HTML files is opened
+   directly from Finder (file://), the page may be narrower than the
+   banner's native pixel width — the lighthouse and lockup get cut off
+   off-screen. This scales the banner down to fit any narrower viewport.
+   The banner retains its native --w / --h variables so pixel-accurate
+   screenshots still work (screenshot tools can resize the window to
+   ≥ native width). When embedded inside the showcase index.html iframe,
+   the iframe's viewport is set to native size so this becomes a no-op. */
+body > .banner {
+  /* Scale the banner so it never overflows the viewport horizontally.
+     min(1, 100vw / native-width) clamps at 1 when there's enough room. */
+  transform: scale(min(1, calc(100vw / var(--w))));
+  transform-origin: top left;
+}
 
 /* ============================================================
    Banner shell
@@ -279,6 +293,14 @@ html, body {
 .lockup__divider--ink { background: var(--rule-200); }
 .lockup__pharos {
   height: calc(28px * var(--s));
+  width: auto;
+  display: block;
+}
+/* The full Pharos lockup image (P-mark + "Pharos Wealth Partners" wordmark)
+   from the email signature, used in the bottom-left lockup so the social
+   banner mirrors the same brand stamp as outgoing email. */
+.lockup__pharos-lockup {
+  height: calc(32px * var(--s));
   width: auto;
   display: block;
 }
@@ -863,7 +885,12 @@ html, body {
 }
 .horizon__lamp {
   position: absolute;
-  right: calc(220px * var(--s));
+  /* Sits at the base of the lighthouse on the horizon line, centered
+     under the silhouette so the reflection trail flows directly from it.
+     Lighthouse body center sits at ~19.6% across the 704-wide P-mark
+     image; with image at right:90px and width:150px, that's ~211px from
+     the banner's right edge. */
+  right: calc(211px * var(--s));
   top: calc(70% - calc(6px * var(--s)));
   width: calc(14px * var(--s));
   height: calc(14px * var(--s));
@@ -875,25 +902,74 @@ html, body {
     0 0 calc(48px * var(--s)) rgba(240, 180, 40, 0.5),
     0 0 calc(80px * var(--s)) rgba(240, 180, 40, 0.25);
 }
-/* Receding reflection trail — a column of fading amber dashes mirroring
-   the lamp on the water. Classic seascape detail done with pure CSS. */
+/* Receding reflection trail — a wide cone of amber light shining down from
+   the lighthouse lamp across the dark water. Tapers slightly outward from
+   the source so it reads as a beam spreading on the sea surface, then
+   fades to nothing at the bottom edge. */
 .horizon__reflection {
   position: absolute;
-  right: calc(214px * var(--s));
-  top: calc(70% + calc(8px * var(--s)));
-  width: calc(24px * var(--s));
-  height: calc(80px * var(--s));
+  /* Anchored under the actual lighthouse base — lighthouse body center is
+     ~211px from the banner right edge. Container is the cone's bounding
+     box (narrow at the lamp source, widest at the water surface). */
+  right: calc(125px * var(--s));
+  top: calc(70% + calc(2px * var(--s)));
+  width: calc(170px * var(--s));
+  height: calc(135px * var(--s));
   pointer-events: none;
+  /* Layered light: a hot radial core anchored at the lamp source over a
+     softer vertical falloff. The radial gives the beam an atmospheric
+     "cast light" quality (brightest where it leaves the lamp, dispersing
+     outward) while the linear underlayer ensures the light dies cleanly
+     at the water's edge instead of clipping. */
   background:
+    radial-gradient(
+      ellipse 70% 90% at 50% 0%,
+      rgba(255, 230, 150, 0.95) 0%,
+      rgba(245, 195, 70, 0.65) 22%,
+      rgba(240, 180, 40, 0.32) 55%,
+      rgba(240, 180, 40, 0.10) 80%,
+      rgba(240, 180, 40, 0) 100%
+    ),
     linear-gradient(
       180deg,
-      rgba(240, 180, 40, 0.7) 0%,
-      rgba(240, 180, 40, 0.45) 25%,
-      rgba(240, 180, 40, 0.18) 60%,
+      rgba(255, 215, 110, 0.55) 0%,
+      rgba(240, 180, 40, 0.30) 40%,
+      rgba(240, 180, 40, 0.10) 75%,
       rgba(240, 180, 40, 0) 100%
     );
-  filter: blur(calc(3px * var(--s)));
-  opacity: 0.85;
+  /* Wedge geometry — narrow at the lamp, fanning to the full width at
+     the water. The slight 16% notch at the top keeps the source from
+     looking like a single pixel and matches the visible lamp disc. */
+  clip-path: polygon(42% 0%, 58% 0%, 100% 100%, 0% 100%);
+  /* Heavier blur softens the cone's hard clipped edges so the light
+     reads as scattered/diffused on the water surface rather than as a
+     stencil. This is what brings back the textural "beam of light" feel
+     from the first iteration. */
+  filter: blur(calc(5px * var(--s)));
+  opacity: 0.95;
+}
+/* Secondary glow halo — a wide, very soft radial sitting underneath the
+   clipped cone. It bleeds beyond the cone's silhouette so the beam fades
+   into the surrounding water instead of stopping at a sharp triangular
+   border. This is the layer that delivers the atmospheric "cast" quality
+   the original radial-only version had. */
+.horizon__reflection-glow {
+  position: absolute;
+  right: calc(80px * var(--s));
+  top: calc(70% - calc(4px * var(--s)));
+  width: calc(260px * var(--s));
+  height: calc(160px * var(--s));
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 50% 80% at 50% 0%,
+    rgba(255, 215, 110, 0.45) 0%,
+    rgba(240, 180, 40, 0.22) 25%,
+    rgba(240, 180, 40, 0.08) 55%,
+    rgba(240, 180, 40, 0) 100%
+  );
+  filter: blur(calc(8px * var(--s)));
+  /* Sit on top of the water but below the lighthouse + clipped cone. */
+  z-index: 0;
 }
 /* Two extra distant lamp dots in the far distance — barely visible, but
    they introduce the sense of a horizon stretching beyond the frame. */
@@ -912,10 +988,12 @@ html, body {
 .horizon__lighthouse {
   position: absolute;
   right: calc(90px * var(--s));
-  /* horizon sits at 70% of height; lighthouse rests on the horizon */
-  top: calc((var(--h) * 0.70) - calc(150px * var(--s)));
+  /* horizon sits at 70% of height; lighthouse rests on the horizon.
+     The pharos-P-mark asset is 704x799 ≈ 0.881 ratio (slightly taller
+     than wide) — sized at 150px wide it stands 170px tall. */
+  top: calc((var(--h) * 0.70) - calc(165px * var(--s)));
   width: calc(150px * var(--s));
-  height: calc(155.7px * var(--s));
+  height: calc(170px * var(--s));
 }
 .horizon__lighthouse img {
   width: 100%;
@@ -942,6 +1020,29 @@ html, body {
   position: absolute;
   bottom: calc(22px * var(--s));
   left: calc(64px * var(--s));
+}
+
+/* ============================================================
+   Direction 10 — Horizon, Still
+   Same composition as Horizon (Direction 6) but with the entire water /
+   reflection scene removed: no water band, no horizon hairline, no lamp
+   dot, no reflection cone, no distant lamps. The lighthouse rests on a
+   clean navy gradient sky. The composition's other elements (eyebrow,
+   headline, lockup) stay where the eye learned to expect them.
+   ============================================================ */
+.horizon--still .horizon__water,
+.horizon--still .horizon__hairline,
+.horizon--still .horizon__lamp,
+.horizon--still .horizon__reflection,
+.horizon--still .horizon__reflection-glow,
+.horizon--still .horizon__distant-lamp {
+  display: none;
+}
+/* Without a horizon line at 70%, the lighthouse rests near vertical
+   center on the navy field. Keep its height/width identical to the
+   original so the silhouette reads at the same scale. */
+.horizon--still .horizon__lighthouse {
+  top: calc(50% - calc(85px * var(--s)));
 }
 
 /* ============================================================
