@@ -883,93 +883,41 @@ body > .banner {
   opacity: 0.95;
   box-shadow: 0 0 calc(8px * var(--s)) rgba(200, 161, 74, 0.4);
 }
-.horizon__lamp {
+/* Mirrored lighthouse reflection on the water — the P-mark logo flipped
+   vertically and positioned directly beneath the lighthouse, anchored at
+   the horizon line so the two silhouettes meet edge-to-edge. Reduced
+   opacity + a soft blur sells it as a glistening reflection in moonlight
+   rather than a literal duplicate of the mark. */
+.horizon__lighthouse-reflection {
   position: absolute;
-  /* Sits at the base of the lighthouse on the horizon line, centered
-     under the silhouette so the reflection trail flows directly from it.
-     Lighthouse body center sits at ~19.6% across the 704-wide P-mark
-     image; with image at right:90px and width:150px, that's ~211px from
-     the banner's right edge. */
-  right: calc(211px * var(--s));
-  top: calc(70% - calc(6px * var(--s)));
-  width: calc(14px * var(--s));
-  height: calc(14px * var(--s));
-  border-radius: 50%;
-  background: var(--lamp-amber);
-  box-shadow:
-    0 0 calc(8px * var(--s)) #ffd770,
-    0 0 calc(24px * var(--s)) var(--lamp-amber),
-    0 0 calc(48px * var(--s)) rgba(240, 180, 40, 0.5),
-    0 0 calc(80px * var(--s)) rgba(240, 180, 40, 0.25);
-}
-/* Receding reflection trail — a wide cone of amber light shining down from
-   the lighthouse lamp across the dark water. Tapers slightly outward from
-   the source so it reads as a beam spreading on the sea surface, then
-   fades to nothing at the bottom edge. */
-.horizon__reflection {
-  position: absolute;
-  /* Anchored under the actual lighthouse base — lighthouse body center is
-     ~211px from the banner right edge. Container is the cone's bounding
-     box (narrow at the lamp source, widest at the water surface). */
-  right: calc(125px * var(--s));
-  top: calc(70% + calc(2px * var(--s)));
-  width: calc(170px * var(--s));
-  height: calc(135px * var(--s));
+  /* Match the lighthouse's horizontal position so the reflection sits
+     directly under the upright silhouette. */
+  right: calc(90px * var(--s));
+  /* The box itself sits BELOW the horizon — its top edge is at 70% so
+     the content area occupies water-band space. With the box already
+     positioned below the horizon, an in-place scaleY(-1) flips the
+     P-mark inside that box, producing an inverted silhouette directly
+     under the upright lighthouse. */
+  top: 70%;
+  width: calc(150px * var(--s));
+  height: calc(170px * var(--s));
   pointer-events: none;
-  /* Layered light: a hot radial core anchored at the lamp source over a
-     softer vertical falloff. The radial gives the beam an atmospheric
-     "cast light" quality (brightest where it leaves the lamp, dispersing
-     outward) while the linear underlayer ensures the light dies cleanly
-     at the water's edge instead of clipping. */
-  background:
-    radial-gradient(
-      ellipse 70% 90% at 50% 0%,
-      rgba(255, 230, 150, 0.95) 0%,
-      rgba(245, 195, 70, 0.65) 22%,
-      rgba(240, 180, 40, 0.32) 55%,
-      rgba(240, 180, 40, 0.10) 80%,
-      rgba(240, 180, 40, 0) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(255, 215, 110, 0.55) 0%,
-      rgba(240, 180, 40, 0.30) 40%,
-      rgba(240, 180, 40, 0.10) 75%,
-      rgba(240, 180, 40, 0) 100%
-    );
-  /* Wedge geometry — narrow at the lamp, fanning to the full width at
-     the water. The slight 16% notch at the top keeps the source from
-     looking like a single pixel and matches the visible lamp disc. */
-  clip-path: polygon(42% 0%, 58% 0%, 100% 100%, 0% 100%);
-  /* Heavier blur softens the cone's hard clipped edges so the light
-     reads as scattered/diffused on the water surface rather than as a
-     stencil. This is what brings back the textural "beam of light" feel
-     from the first iteration. */
-  filter: blur(calc(5px * var(--s)));
-  opacity: 0.95;
-}
-/* Secondary glow halo — a wide, very soft radial sitting underneath the
-   clipped cone. It bleeds beyond the cone's silhouette so the beam fades
-   into the surrounding water instead of stopping at a sharp triangular
-   border. This is the layer that delivers the atmospheric "cast" quality
-   the original radial-only version had. */
-.horizon__reflection-glow {
-  position: absolute;
-  right: calc(80px * var(--s));
-  top: calc(70% - calc(4px * var(--s)));
-  width: calc(260px * var(--s));
-  height: calc(160px * var(--s));
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse 50% 80% at 50% 0%,
-    rgba(255, 215, 110, 0.45) 0%,
-    rgba(240, 180, 40, 0.22) 25%,
-    rgba(240, 180, 40, 0.08) 55%,
-    rgba(240, 180, 40, 0) 100%
-  );
-  filter: blur(calc(8px * var(--s)));
-  /* Sit on top of the water but below the lighthouse + clipped cone. */
+  transform: scaleY(-1);
+  /* A soft vertical fade so the reflection dissolves into the water
+     rather than ending in a hard cut at the bottom. The mask uses the
+     pre-flip orientation, so "to top" actually fades the deepest part
+     of the reflection (visually the bottom). */
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0) 100%);
+  opacity: 0.42;
+  filter: blur(calc(1.5px * var(--s)));
   z-index: 0;
+}
+.horizon__lighthouse-reflection img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 /* Two extra distant lamp dots in the far distance — barely visible, but
    they introduce the sense of a horizon stretching beyond the frame. */
@@ -1032,9 +980,7 @@ body > .banner {
    ============================================================ */
 .horizon--still .horizon__water,
 .horizon--still .horizon__hairline,
-.horizon--still .horizon__lamp,
-.horizon--still .horizon__reflection,
-.horizon--still .horizon__reflection-glow,
+.horizon--still .horizon__lighthouse-reflection,
 .horizon--still .horizon__distant-lamp {
   display: none;
 }
@@ -1043,6 +989,86 @@ body > .banner {
    original so the silhouette reads at the same scale. */
 .horizon--still .horizon__lighthouse {
   top: calc(50% - calc(85px * var(--s)));
+}
+
+/* ============================================================
+   Direction 11 — Horizon, Open Sea
+   Same Horizon composition but with the lighthouse mark and its
+   reflection removed entirely. What remains is the navy sky, the
+   gold horizon hairline, the dark water band, and the two faint
+   distant lamps — a pure seascape behind the headline and lockup.
+   ============================================================ */
+.horizon--open .horizon__lighthouse,
+.horizon--open .horizon__lighthouse-reflection {
+  display: none;
+}
+/* Constellation: two clusters of tiny diamond "stars" anchored in the
+   upper-left and upper-right corners, fading toward the center and
+   downward into the sky. Built from a tiled inline-SVG diamond mark
+   on a transparent layer, then masked with a corner-anchored radial
+   gradient so density drops off naturally toward the horizon. */
+.horizon--open .horizon__stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Sit above sky-bands but below the headline + lockup so type stays
+     fully legible if the gradient ever reaches that far. */
+  z-index: 1;
+}
+.horizon--open .horizon__stars::before,
+.horizon--open .horizon__stars::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  /* Cluster footprint — tighter and shorter so the constellation hugs
+     only the very top of each corner. Width narrowed and height cut
+     roughly in half so stars never reach the headline band. */
+  width: 32%;
+  height: 32%;
+  /* Tiled diamond: a small rotated square in gold. Tile is 16×16 so
+     diamonds sit closer together than the previous 24×24 grid, and
+     each mark is sized down slightly so the field reads as a tight
+     cluster rather than a scattered grid. */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><rect x='6' y='6' width='4' height='4' transform='rotate(45 8 8)' fill='%23c8a14a' fill-opacity='0.85'/></svg>");
+  background-repeat: repeat;
+  background-size: calc(16px * var(--s)) calc(16px * var(--s));
+}
+/* Top-left cluster — densest at the corner (0%, 0%), falling off
+   sharply so the cluster terminates well above the headline. */
+.horizon--open .horizon__stars::before {
+  left: 0;
+  -webkit-mask-image: radial-gradient(
+    ellipse 100% 100% at 0% 0%,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.55) 35%,
+    rgba(0, 0, 0, 0.15) 65%,
+    rgba(0, 0, 0, 0) 85%
+  );
+  mask-image: radial-gradient(
+    ellipse 100% 100% at 0% 0%,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.55) 35%,
+    rgba(0, 0, 0, 0.15) 65%,
+    rgba(0, 0, 0, 0) 85%
+  );
+}
+/* Top-right cluster — mirror of the left, anchored at (100%, 0%). */
+.horizon--open .horizon__stars::after {
+  right: 0;
+  -webkit-mask-image: radial-gradient(
+    ellipse 100% 100% at 100% 0%,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.55) 35%,
+    rgba(0, 0, 0, 0.15) 65%,
+    rgba(0, 0, 0, 0) 85%
+  );
+  mask-image: radial-gradient(
+    ellipse 100% 100% at 100% 0%,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.55) 35%,
+    rgba(0, 0, 0, 0.15) 65%,
+    rgba(0, 0, 0, 0) 85%
+  );
 }
 
 /* ============================================================
